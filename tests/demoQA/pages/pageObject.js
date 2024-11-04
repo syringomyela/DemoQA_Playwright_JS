@@ -8,11 +8,6 @@ class mainPage {
         await this.page.goto('/text-box');
     }
 
-    async getTextBox() {
-        let textBoxIndicator = (id) =>  this.page.locator(id);
-        await textBoxIndicator('#userName');
-
-    }
     async fillTextBoxes(name, email, address1, address2) {
         
         let textBoxIndicator = (id) =>  this.page.locator(id);
@@ -28,10 +23,6 @@ class mainPage {
         await this.page.click('#submit');
     }
 
-
-    // async getText(name, email, current, permanent) {
-    //     await this.page.locator('#output')
-    // }
 }
 
 export { mainPage }
