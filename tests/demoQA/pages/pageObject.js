@@ -11,7 +11,7 @@ class mainPage {
     async getTextBox() {
         let textBoxIndicator = (id) =>  this.page.locator(id);
         await textBoxIndicator('#userName');
-        
+
     }
     async fillTextBoxes(name, email, address1, address2) {
         
@@ -23,15 +23,6 @@ class mainPage {
         await textBoxIndicator('#permanentAddress').fill(address2);
 
     }
-    // async output() {
-    //     const result = {
-    //         name : await this.page.locator('#output #name').innerText(),
-    //         email : this.page.locator('#output #email'),
-    //         currentAddress : this.page.locator('#output #currentAddress'),
-    //         permanentAddress : this.page.locator('#output #permanentAddress'),
-    //     }
-    //     return result;
-    // }
 
     async pressSubmit() {
         await this.page.click('#submit');
