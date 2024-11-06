@@ -1,18 +1,18 @@
 
-function randomizeInput() {
-    const input = Math.random().toString(36).substring(2, 10)
-    return input;
+function getRandomInputData(length) {
+    return Math.random().toString(36).substring(2, length);
 }
 
-function randomizeEmail() {
-    const email = Math.random().toString(36).substring(2, 10) + '@mail.com'
-    return email;
+function getRandomEmail(length) {
+    return Math.random().toString(36).substring(2, length) + '@mail.com';
 }
 
-export const filler = {
-    name : randomizeInput(),
-    email : randomizeEmail(),
-    fakeEmail : randomizeInput(),
-    currentAddress : randomizeInput(),
-    permanentAddress : randomizeInput(),
+export function  generateTextBoxData(length = 10) {
+    return {
+        name : getRandomInputData(length),
+        email : getRandomEmail(length),
+        fakeEmail : getRandomInputData(length),
+        currentAddress : getRandomInputData(length),
+        permanentAddress : getRandomInputData(length),
+    }
 }
