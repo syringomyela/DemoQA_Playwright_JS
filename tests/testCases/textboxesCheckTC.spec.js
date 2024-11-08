@@ -41,8 +41,6 @@ test('Negative scenario, using incorrect email input:', async({page}, testInfo) 
 
     await actualPage.pressSubmitButton();
     
-    
-
     await expect(emailBoxElement).toHaveCSS('border', '1px solid rgb(255, 0, 0)');
 
 })
