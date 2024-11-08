@@ -17,29 +17,31 @@ test ('Positive scenario, all textboxes filled with correct data: ', async ({pag
     await actualPage.fillTextBoxes(
         generatedInputData.name, generatedInputData.email, generatedInputData.currentAddress, generatedInputData.permanentAddress
     );
-    await actualPage.pressButton('#submit');
+    await actualPage.pressSubmitButton();
 
-    await expect(await actualPage.getElementBySelector('#output #name').innerText())
+    await expect(await actualPage.outputResult().name.innerText())
         .toBe(`Name:${generatedInputData.name}`);
-    await expect(await actualPage.getElementBySelector('#output #email').innerText())
+    await expect(await actualPage.outputResult().email.innerText())
         .toBe(`Email:${generatedInputData.email}`);
-    await expect(await actualPage.getElementBySelector('#output #currentAddress').innerText())
+    await expect(await actualPage.outputResult().currentAddress.innerText())
         .toBe(`Current Address :${generatedInputData.currentAddress}`);
-    await expect(await actualPage.getElementBySelector('#output #permanentAddress').innerText())
+    await expect(await actualPage.outputResult().permanentAddress.innerText())
         .toBe(`Permananet Address :${generatedInputData.permanentAddress}`);
 });
 
 
 test('Negative scenario, using incorrect email input:', async({page}, testInfo) => {
     const { actualPage, generatedInputData } = testInfo.data;
-
+    
+    const emailBoxElement = actualPage.getElementBySelector('#userEmail');
+    
     await actualPage.fillTextBoxes(
         generatedInputData.name, generatedInputData.fakeEmail, generatedInputData.currentAddress, generatedInputData.permanentAddress
     );
 
-    await actualPage.pressButton('#submit');
+    await actualPage.pressSubmitButton();
     
-    const emailBoxElement = actualPage.getElementBySelector('#userEmail');
+    
 
     await expect(emailBoxElement).toHaveCSS('border', '1px solid rgb(255, 0, 0)');
 
