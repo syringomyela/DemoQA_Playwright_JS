@@ -5,27 +5,6 @@ class mainPage extends BasePage {
     constructor(page) {
         super(page)
     }
-
-    // getElementBySelector(selector) {
-    //     //console.log(this.page.locator(selector));
-    //     return this.page.locator(selector);
-    // }
-    
-    // getElementByText (selector) {
-    //     return this.page.getByText(selector, { exact : true })
-    // }
-
-    // getElementByRole (selector) {
-    //     return this.page.getByRole(selector);
-    // }
-
-    // getElementByLabel (selector) {
-    //     return this.page.getByLabel(selector);
-    // } 
-
-    // getDate() {
-    //     return this.page.inputValue('#dateOfBirthInput');
-    // }
     
     async fillForm(name1, name2, email, gender, phone, date, hobby, picture, address, state, city) {
         //names
