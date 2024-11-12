@@ -1,67 +1,101 @@
 import { Page } from 'playwright';
+import { BasePage } from '../../../common/basePage';
 
-class mainPage {
+class mainPage extends BasePage {
     constructor(page) {
-        this.page = page;
+        super(page)
     }
 
-    async goto() {
-
-        await this.page.goto('/automation-practice-form');
-    }
-
-    async getElementBySelector(selector) {
-        console.log(this.page.locator(selector));
-        return this.page.locator(selector);
-    }
+    // getElementBySelector(selector) {
+    //     //console.log(this.page.locator(selector));
+    //     return this.page.locator(selector);
+    // }
     
-    async getElementByText (selector) {
-        return this.page.getByText(selector, { exact : true })
-    }
+    // getElementByText (selector) {
+    //     return this.page.getByText(selector, { exact : true })
+    // }
 
-    async getDate() {
-        return  this.page.inputValue('#dateOfBirthInput');
-    }
+    // getElementByRole (selector) {
+    //     return this.page.getByRole(selector);
+    // }
+
+    // getElementByLabel (selector) {
+    //     return this.page.getByLabel(selector);
+    // } 
+
+    // getDate() {
+    //     return this.page.inputValue('#dateOfBirthInput');
+    // }
     
-    async fillForm(name1, name2, email, phone, date, hobby, picture, address) {
+    async fillForm(name1, name2, email, gender, phone, date, hobby, picture, address, state, city) {
         //names
         await this.getElementBySelector('#firstName').fill(name1);
         await this.getElementBySelector('#lastName').fill(name2);
         //email
         await this.getElementBySelector('#userEmail').fill(email);
         //gen
-        await this.getElementByText('Male').click();
+        if (gender) {
+        await this.getElementByText(gender).click();
+        }
         //number
         await this.getElementBySelector('#userNumber').fill(phone);
         //date
-        await this.getElementBySelector('#dateOfBirthInput').fill(date);
+        if (date) {
+            await this.getElementBySelector('#dateOfBirthInput').fill(date);
+            await this.page.keyboard.press('Enter');
+        }
         //choose subjects
         await this.getElementBySelector('.subjects-auto-complete__value-container').click();
-        await this.getElementBySelector('subjectsInput').fill('d');
+        await this.getElementBySelector('#subjectsInput').fill('d');
         await this.getElementByText('Social Studies').click();
         //hobbies
-        await this.getElementByText(hobby).click();
+        if (hobby) {
+            await this.getElementByText(hobby).click();
+        }
         //upload picture
-        await this.getElementBySelector('uploadPicture').setInputFiles(picture);
+        if (picture) {
+            await this.getElementBySelector('#uploadPicture').setInputFiles(picture);
+        }
         //fill address
         await this.getElementBySelector('#currentAddress').fill(address);
+        
+        if (state) {
+            await this.getElementBySelector('#state svg').click()
+            await this.page.waitForSelector(`text=${state}`, { timeout: 5000 });
+            await this.getElementByText(state).click();
+            await this.getElementBySelector('#city svg').click();
+            await this.page.waitForSelector(`text=${city}`, { timeout: 5000 });
+            await this.getElementByText(city).click();
+        }
     }
 
-    async outputResult(name1, name2, email, phone, date, hobby, picture, address) {
-        return [
-                { label: 'Student Name', value: name1 + ' ' + name2},
-                { label: 'Student Email', value: email },
-                { label: 'Mobile', value: phone },
-                { label: 'Gender', value: 'Male' },
-                { label: 'Date of Birth', value: date },
-                { label: 'Subjects', value: 'Social Studies' },
-                { label: 'Hobbies', value: hobby },
-                { label: 'Address', value: address },
-                { label: 'State and City', value: 'Uttar Pradesh Lucknow' }
-        ]
+    async extractTableResult (selector) {
+        const rows = await this.page.$$(selector);
+        const extractedData = {};
+
+        for (const row of rows) {
+            const label = await row.$eval('td:nth-child(1)', element => element.textContent.trim());
+            const value = await row.$eval('td:nth-child(2)', element => element.textContent.trim());
+            extractedData[label] = value;
+          }
+
+        return extractedData;
+        
     }
-
-
+    async expectedResult(name1, name2, email, phone, date, hobby, picture, address, state, city) {
+        return {
+                'Student Name' : name1 + ' ' + name2,
+                'Student Email': email ,
+                'Mobile': phone ,
+                'Gender': 'Male' ,
+                'Date of Birth' : date ,
+                'Subjects' : 'Social Studies',
+                'Hobbies' : hobby,
+                'Picture' : picture.split('/').pop(),
+                'Address' : address,
+                'State and City' : state + ' ' + city,
+        }
+    }
 
     async pressSubmitButton() {
         await this.getElementBySelector('#submit').click();
