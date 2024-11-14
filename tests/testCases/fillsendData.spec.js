@@ -102,7 +102,7 @@ test ('Negative scenario, empty fields for name:', async ({mainPage, generateFor
     await expect(lastName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
 });
 
-test.only ('Negative scenario, sending empty form:', async ({mainPage}, interaction) => {
+test.only ('Negative scenario, sending empty form:', async ({mainPage, interaction} ) => {
     
     await mainPage.fillForm(
         '', 
