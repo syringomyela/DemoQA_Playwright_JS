@@ -1,70 +1,99 @@
 
-function getRandomInputData(length) {
-    return Math.random().toString(36).substring(2, length);
-}
+import { Page } from 'playwright';
+import { utilities } from '../../../common/utils.js';
 
-function getRandomEmail(length) {
-    return Math.random().toString(36).substring(2, length) + '@mail.com';
-}
 
-function getRandomNumber(length) {
-    return Math.floor(Math.random() * Math.pow(10, length)).toString()
-}
+class interaction extends utilities {
+    constructor(page) {
+        super(page)
+    }
+    
+    state() {
+        return {
+            'Uttar Pradesh' : ['Agra', 'Luckhow', 'Merrut'], 
+            Haryana : ['Karnal', 'Panipat'], 
+            NCR : ['Delhi', 'Gurgaon', 'Noida'], 
+            Rajasthan : ['Jaipur', 'Jaiselmer'],
+        }
+    }
 
-function getRandomDate() {
-    const start = new Date(0); //01011970
-    const end = Date.now();
+    gender() {
+        return ['Male', 'Female','Other']
+    }
 
-    const date = new Date(start.getTime() + Math.random() * (end - start.getTime()));
+    date() {
+        let random = (limit) => Math.floor(Math.random() * limit)
+        let month = random(12);
+        let year = random(125) +1900; //2024
+            
+        let day = () => {
+            const days = {
+                0: 31,
+                1: 28, 
+                2: 31, 
+                3: 30, 
+                4: 31, 
+                5: 30, 
+                6: 31, 
+                7: 31, 
+                8: 30, 
+                9: 31, 
+                10: 30, 
+                11: 31,
+            };
+                
+        if (month == 1) {
+            if ((year % 4 == 0 || year !== 1900)) {
+                return random(29) + 1;
+            } return random(28) + 1;
+        } return random(days[month]) + 1;
+        };
 
-    date.setHours(0, 0, 0, 0); //!!!
+        const dayString = day < 10 ? `0${day()}` : `${day()}`
 
-return date.toISOString().split('T')[0];
-}
+        return {
+                month: month,
+                year: year,
+                day: dayString
+        }
+    }
 
-function getRandomHobby() {
+    getRandomHobby() {
     let hobbies = ['Sports','Reading','Music']
-    return hobbies[Math.floor((Math.random()*hobbies.length))];   
-}
+        return hobbies[Math.floor((Math.random()*hobbies.length))];   
+    }
 
-const state = {
-    'Uttar Pradesh' : ['Agra', 'Luckhow', 'Merrut'], 
-    Haryana : ['Karnal', 'Panipat'], 
-    NCR : ['Delhi', 'Gurgaon', 'Noida'], 
-    Rajasthan : ['Jaipur', 'Jaiselmer'],
-}
+    getRandomGender() {
+        return this.gender()[Math.floor(Math.random() * this.gender().length)]
+    }
 
-export const gender = ['Male', 'Female','Other']
+    chooseState() {
+        const keys = Object.keys(this.state());
+        return  keys[Math.floor(Math.random() * keys.length)];
+    }
 
-function getRandomGender() {
-return gender[Math.floor(Math.random() * gender.length)]
-}
+    chooseCity() {
+        const randomState = this.chooseState();
+        const cities = this.state()[randomState];
+        const randomCity = cities[Math.floor(Math.random() * cities.length)]
+        return [randomState, randomCity];
+    }
 
-function chooseState() {
-    const keys = Object.keys(state);
-    return  keys[Math.floor(Math.random() * keys.length)];
-}
-
-function chooseCity() {
-    const randomState = chooseState();
-    const cities = state[randomState];
-    const randomCity = cities[Math.floor(Math.random() * cities.length)]
-    return [randomState, randomCity];
-}
-
-export function  generateFormData(length = 10) {
-    const [state, city] = chooseCity();
-    return {
-        name1 : getRandomInputData(length),
-        name2 : getRandomInputData(length),
-        gender : getRandomGender(),
-        email : getRandomEmail(length),
-        number : getRandomNumber(10),
-        date : getRandomDate(),
-        hobby : getRandomHobby(),
-        address : getRandomInputData(length),
-        picture : 'tests/demoQA/pages/sendingFormPage/superJumbo.jpg',
-        state : state,
-        city : city,
+    generateFormData(length = 10) {
+        const [state, city] = this.chooseCity();
+        return {
+            name1 : this.getRandomInputData(length),
+            name2 : this.getRandomInputData(length),
+            gender : this.getRandomGender(),
+            email : this.getRandomEmail(length),
+            number : this.getRandomNumber(10),
+            hobby : this.getRandomHobby(),
+            address : this.getRandomInputData(length),
+            picture : 'tests/demoQA/pages/sendingFormPage/superJumbo.jpg',
+            state : state,
+            city : city,
     }
 }
+}
+
+export {interaction}

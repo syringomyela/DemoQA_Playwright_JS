@@ -1,28 +1,42 @@
 import { Page } from 'playwright';
 import { BasePage } from '../../../common/basePage';
+import { interaction } from './inputs';
+
 
 class mainPage extends BasePage {
     constructor(page) {
         super(page)
+        this.method = new interaction;
     }
     
-    async fillForm(name1, name2, email, gender, phone, date, hobby, picture, address, state, city) {
+    elementOnPage() {
+        return {
+            firstNameBox: this.getElementBySelector('#firstName'),
+            lastNameBox: this.getElementBySelector('#lastName'),
+            emailBox: this.getElementBySelector('#userEmail'),
+            phoneBox: this.getElementBySelector('#userNumber'),
+            dateBox: this.getElementBySelector('#dateOfBirthInput'),
+            pictureLoad: this.getElementBySelector('#uploadPicture'),
+            addressBox: this.getElementBySelector('#currentAddress'),
+            stateMenu: this.getElementBySelector('#state svg'),
+            cityMenu: this.getElementBySelector('#city svg'),
+        }
+    }
+    
+    async fillForm(name1, name2, email, gender, phone, hobby, picture, address, state, city) {
         //names
-        await this.getElementBySelector('#firstName').fill(name1);
-        await this.getElementBySelector('#lastName').fill(name2);
+        await this.elementOnPage().firstNameBox.fill(name1);
+        await this.elementOnPage().lastNameBox.fill(name2);
         //email
-        await this.getElementBySelector('#userEmail').fill(email);
+        await this.elementOnPage().emailBox.fill(email);
         //gen
         if (gender) {
         await this.getElementByText(gender).click();
         }
         //number
-        await this.getElementBySelector('#userNumber').fill(phone);
+        await this.elementOnPage().phoneBox.fill(phone);
         //date
-        if (date) {
-            await this.getElementBySelector('#dateOfBirthInput').fill(date);
-            await this.page.keyboard.press('Enter');
-        }
+        await this.enterDate(this.method.date().year, this.method.date().month, this.method.date().day);
         //choose subjects
         await this.getElementBySelector('.subjects-auto-complete__value-container').click();
         await this.getElementBySelector('#subjectsInput').fill('d');
@@ -33,23 +47,23 @@ class mainPage extends BasePage {
         }
         //upload picture
         if (picture) {
-            await this.getElementBySelector('#uploadPicture').setInputFiles(picture);
+            await this.elementOnPage().pictureLoad.setInputFiles(picture);
         }
         //fill address
-        await this.getElementBySelector('#currentAddress').fill(address);
+        await this.elementOnPage().addressBox.fill(address);
         
         if (state) {
-            await this.getElementBySelector('#state svg').click()
-            await this.page.waitForSelector(`text=${state}`, { timeout: 5000 });
+            await this.elementOnPage().stateMenu.scrollIntoViewIfNeeded();
+            await this.elementOnPage().stateMenu.click();
             await this.getElementByText(state).click();
-            await this.getElementBySelector('#city svg').click();
-            await this.page.waitForSelector(`text=${city}`, { timeout: 5000 });
+            await this.elementOnPage().cityMenu.scrollIntoViewIfNeeded();
+            await this.elementOnPage().cityMenu.click();
             await this.getElementByText(city).click();
         }
     }
 
-    async extractTableResult (selector) {
-        const rows = await this.page.$$(selector);
+    async extractTableResult () {
+        const rows = await this.page.$$('.modal-body table tbody tr');
         const extractedData = {};
 
         for (const row of rows) {
@@ -61,13 +75,14 @@ class mainPage extends BasePage {
         return extractedData;
         
     }
-    async expectedResult(name1, name2, email, phone, date, hobby, picture, address, state, city) {
+
+    async expectedResult(name1, name2, email, phone, gender, hobby, picture, address, state, city) {
         return {
                 'Student Name' : name1 + ' ' + name2,
                 'Student Email': email ,
                 'Mobile': phone ,
-                'Gender': 'Male' ,
-                'Date of Birth' : date ,
+                'Gender': gender ,
+                'Date of Birth' : this.getDate() ,
                 'Subjects' : 'Social Studies',
                 'Hobbies' : hobby,
                 'Picture' : picture.split('/').pop(),
@@ -78,6 +93,21 @@ class mainPage extends BasePage {
 
     async pressSubmitButton() {
         await this.getElementBySelector('#submit').click();
+    }
+
+    async enterDate(year, month, day) {
+        await this.elementOnPage().dateBox.click();
+        await this.page.selectOption('select.react-datepicker__month-select', `${month}`);
+        await this.page.selectOption('select.react-datepicker__year-select', `${year}`);
+        const days = await this.page.$$("div.react-datepicker__day");
+
+        for (const calendarDay of days) {
+            if (await calendarDay.textContent() == day) {
+                await calendarDay.click();
+                break;
+            }
+        }
+
     }
 
 }

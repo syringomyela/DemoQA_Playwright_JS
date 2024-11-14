@@ -1,12 +1,12 @@
 import { Page } from 'playwright';
 
-class BasePage {
+class BasePage{
     constructor(page) {
         this.page = page; 
     }
 
-    async goto(url) {
-        await this.page.goto(url);
+    async goto() {
+        await this.page.goto('/automation-practice-form');
     }
 
   getElementBySelector(selector) {

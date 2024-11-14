@@ -1,134 +1,113 @@
-const { test, expect } = require('@playwright/test');
-import { mainPage } from '../demoQA/pages/sendingFormPage/pageObject.js'
-import { generateFormData } from '../demoQA/pages/sendingFormPage/inputs.js';
-import { gender } from '../demoQA/pages/sendingFormPage/inputs.js';
+import { test, expect } from '../common/fixtures.js';
 
-test.beforeEach(async({page}, testInfo) =>{
-    const actualPage = new mainPage(page);
-    await actualPage.goto('/automation-practice-form');
-    const generatedInputData = generateFormData(10);
+test('Positive scenario, all fields are filled correctly and sent:', async ({mainPage, generateFormData}) => {
 
-    testInfo.data = { actualPage, generatedInputData };
-})
-
-test ('Positive scenario, all fields are filled correctly and sent:', async ({page}, testInfo) => {
-    const { actualPage, generatedInputData } = testInfo.data;
-    await actualPage.fillForm(
-        generatedInputData.name1, 
-        generatedInputData.name2,
-        generatedInputData.email,
-        generatedInputData.gender, 
-        generatedInputData.number, 
-        generatedInputData.date, 
-        generatedInputData.hobby, 
-        generatedInputData.picture, 
-        generatedInputData.address, 
-        generatedInputData.state, 
-        generatedInputData.city 
+    await mainPage.fillForm(
+        generateFormData.name1, 
+        generateFormData.name2,
+        generateFormData.email,
+        generateFormData.gender, 
+        generateFormData.number, 
+        generateFormData.hobby, 
+        generateFormData.picture, 
+        generateFormData.address, 
+        generateFormData.state, 
+        generateFormData.city 
     )
-
-    await actualPage.pressSubmitButton();
-    const actualData = await actualPage.extractTableResult('.modal-body table tbody tr');
     
-    const expectedResults =  actualPage.expectedResult(
-        generatedInputData.name1, 
-        generatedInputData.name2, 
-        generatedInputData.email,
-        generatedInputData.gender, 
-        generatedInputData.number, 
-        generatedInputData.date, 
-        generatedInputData.hobby, 
-        generatedInputData.picture, 
-        generatedInputData.address, 
-        generatedInputData.state, 
-        generatedInputData.city 
+    const expectedResults =  mainPage.expectedResult(
+        generateFormData.name1, 
+        generateFormData.name2, 
+        generateFormData.email,
+        generateFormData.gender, 
+        generateFormData.number, 
+        generateFormData.hobby, 
+        generateFormData.picture, 
+        generateFormData.address, 
+        generateFormData.state, 
+        generateFormData.city 
     )
 
+    await mainPage.pressSubmitButton();
+    const actualData = await mainPage.extractTableResult();
+    
     for (const [key, value] of Object.entries(expectedResults)) {
         expect(actualData[key]).toBe(value);  
     }
 
 });
 
-test ('Negative scenario, incorrect value for Email field:', async ({page}, testInfo) => {
-    const { actualPage, generatedInputData } = testInfo.data;
+test ('Negative scenario, incorrect value for Email field:', async ({mainPage, generateFormData} ) => {
     
-    await actualPage.fillForm(
-        generatedInputData.name1, 
-        generatedInputData.name2, 
-        generatedInputData.name1,
-        generatedInputData.gender, 
-        generatedInputData.number, 
-        generatedInputData.date, 
-        generatedInputData.hobby, 
-        generatedInputData.picture, 
-        generatedInputData.address, 
-        generatedInputData.state, 
-        generatedInputData.city 
+    await mainPage.fillForm(
+        generateFormData.name1, 
+        generateFormData.name2, 
+        generateFormData.name1,
+        generateFormData.gender, 
+        generateFormData.number, 
+        generateFormData.hobby, 
+        generateFormData.picture, 
+        generateFormData.address, 
+        generateFormData.state, 
+        generateFormData.city 
     )
 
-    const emailBoxElement = actualPage.getElementBySelector('#userEmail');
-    await actualPage.pressSubmitButton();
+    const emailBoxElement = mainPage.elementOnPage().emailBox;
+    await mainPage.pressSubmitButton();
     await expect(emailBoxElement).toHaveCSS('border-color', `rgb(220, 53, 69)`); //error marker
 
 });
 
-test ('Negative scenario, incorrect value for Mobile(phone number) field:', async ({page}, testInfo) => {
-    const { actualPage, generatedInputData } = testInfo.data;
+test ('Negative scenario, incorrect value for Mobile(phone number) field:', async ({mainPage, generateFormData}) => {
     
-    await actualPage.fillForm(
-        generatedInputData.name1, 
-        generatedInputData.name2,
-        generatedInputData.email, 
-        generatedInputData.gender,
-        '', 
-        generatedInputData.date, 
-        generatedInputData.hobby, 
-        generatedInputData.picture, 
-        generatedInputData.address, 
-        generatedInputData.state, 
-        generatedInputData.city 
+    await mainPage.fillForm(
+        generateFormData.name1, 
+        generateFormData.name2,
+        generateFormData.email, 
+        generateFormData.gender,
+        '',
+        generateFormData.hobby, 
+        generateFormData.picture, 
+        generateFormData.address, 
+        generateFormData.state, 
+        generateFormData.city 
     )
 
-    const mobileBoxElement = actualPage.getElementBySelector('#userNumber');
-    await actualPage.pressSubmitButton();
+    const mobileBoxElement = mainPage.elementOnPage().phoneBox;
+    await mainPage.pressSubmitButton();
 
     await expect(mobileBoxElement).toHaveCSS('border-color', `rgb(220, 53, 69)`); //error marker
 
 });
 
-test ('Negative scenario, empty fields for name:', async ({page}, testInfo) => {
-    const { actualPage, generatedInputData } = testInfo.data;
+test ('Negative scenario, empty fields for name:', async ({mainPage, generateFormData}, testInfo) => {
     
-    await actualPage.fillForm(
+    await mainPage.fillForm(
         '', 
         '',
-        generatedInputData.email, 
-        generatedInputData.gender,
-        generatedInputData.number, 
-        generatedInputData.date, 
-        generatedInputData.hobby, 
-        generatedInputData.picture, 
-        generatedInputData.address, 
-        generatedInputData.state, 
-        generatedInputData.city 
+        generateFormData.email, 
+        generateFormData.gender,
+        generateFormData.number,
+        generateFormData.hobby, 
+        generateFormData.picture, 
+        generateFormData.address, 
+        generateFormData.state, 
+        generateFormData.city 
     )
-    const firstName = actualPage.getElementBySelector('#firstName');
-    const lastName = actualPage.getElementBySelector('#lastName');
-    await actualPage.pressSubmitButton();
+    const firstName = mainPage.elementOnPage().firstNameBox;
+    const lastName = mainPage.elementOnPage().lastNameBox;
+    await mainPage.pressSubmitButton();
 
     await expect(firstName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
     await expect(lastName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
 });
 
-test ('Negative scenario, sending empty form:', async ({page}, testInfo) => {
-    const { actualPage, generatedInputData } = testInfo.data;
+test.only ('Negative scenario, sending empty form:', async ({mainPage}, interaction) => {
     
-    await actualPage.fillForm(
+    await mainPage.fillForm(
         '', 
         '', 
         '',
-        '', 
         '', 
         '', 
         '', 
@@ -137,15 +116,16 @@ test ('Negative scenario, sending empty form:', async ({page}, testInfo) => {
         '', 
         '' 
     )
-    const firstName = actualPage.getElementBySelector('#firstName');
-    const lastName = actualPage.getElementBySelector('#lastName');
-    const mobileBox = actualPage.getElementBySelector('#userNumber');
-    await actualPage.pressSubmitButton();
+    const firstName = mainPage.elementOnPage().firstNameBox;
+    const lastName = mainPage.elementOnPage().lastNameBox;
+    const mobileBox = mainPage.elementOnPage().phoneBox;
+    const genders =  interaction.gender(); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    await mainPage.pressSubmitButton();
     await expect(firstName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
     await expect(lastName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
     await expect(mobileBox).toHaveCSS('border-color', `rgb(220, 53, 69)`);
-    for (const gen of gender) {
-        await expect(actualPage.getElementByText(gen)).toHaveCSS('color', `rgb(220, 53, 69)`);
+    for (const gen of genders) {
+        await expect(mainPage.getElementByText(gen)).toHaveCSS('color', `rgb(220, 53, 69)`);
     }
 
 
