@@ -38,7 +38,7 @@ test('Positive scenario, all fields are filled correctly and sent:', async ({mai
 });
 
 test ('Negative scenario, incorrect value for Email field:', async ({mainPage, generateFormData} ) => {
-    
+    const errorIndics = await mainPage.errorIndicators();
     await mainPage.fillForm(
         generateFormData.name1, 
         generateFormData.name2, 
@@ -54,12 +54,12 @@ test ('Negative scenario, incorrect value for Email field:', async ({mainPage, g
 
     const emailBoxElement = mainPage.elementOnPage().emailBox;
     await mainPage.pressSubmitButton();
-    await expect(emailBoxElement).toHaveCSS('border-color', `rgb(220, 53, 69)`); //error marker
+    await expect(emailBoxElement).toHaveCSS(errorIndics.element, errorIndics.color); //error marker
 
 });
 
 test ('Negative scenario, incorrect value for Mobile(phone number) field:', async ({mainPage, generateFormData}) => {
-    
+    const errorIndics = await mainPage.errorIndicators();
     await mainPage.fillForm(
         generateFormData.name1, 
         generateFormData.name2,
@@ -76,12 +76,12 @@ test ('Negative scenario, incorrect value for Mobile(phone number) field:', asyn
     const mobileBoxElement = mainPage.elementOnPage().phoneBox;
     await mainPage.pressSubmitButton();
 
-    await expect(mobileBoxElement).toHaveCSS('border-color', `rgb(220, 53, 69)`); //error marker
+    await expect(mobileBoxElement).toHaveCSS(errorIndics.element, errorIndics.color); //error marker
 
 });
 
 test ('Negative scenario, empty fields for name:', async ({mainPage, generateFormData}, testInfo) => {
-    
+    const errorIndics = await mainPage.errorIndicators();
     await mainPage.fillForm(
         '', 
         '',
@@ -98,12 +98,12 @@ test ('Negative scenario, empty fields for name:', async ({mainPage, generateFor
     const lastName = mainPage.elementOnPage().lastNameBox;
     await mainPage.pressSubmitButton();
 
-    await expect(firstName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
-    await expect(lastName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
+    await expect(firstName).toHaveCSS(errorIndics.element, errorIndics.color);
+    await expect(lastName).toHaveCSS(errorIndics.element, errorIndics.color);
 });
 
 test.only ('Negative scenario, sending empty form:', async ({mainPage, interaction} ) => {
-    
+    const errorIndics = await mainPage.errorIndicators();
     await mainPage.fillForm(
         '', 
         '', 
@@ -121,11 +121,11 @@ test.only ('Negative scenario, sending empty form:', async ({mainPage, interacti
     const mobileBox = mainPage.elementOnPage().phoneBox;
     const genders =  interaction.gender(); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     await mainPage.pressSubmitButton();
-    await expect(firstName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
-    await expect(lastName).toHaveCSS('border-color', `rgb(220, 53, 69)`);
-    await expect(mobileBox).toHaveCSS('border-color', `rgb(220, 53, 69)`);
+    await expect(firstName).toHaveCSS(errorIndics.element, errorIndics.color);
+    await expect(lastName).toHaveCSS(errorIndics.element, errorIndics.color);
+    await expect(mobileBox).toHaveCSS(errorIndics.element, errorIndics.color);
     for (const gen of genders) {
-        await expect(mainPage.getElementByText(gen)).toHaveCSS('color', `rgb(220, 53, 69)`);
+        await expect(mainPage.getElementByText(gen)).toHaveCSS(errorIndics.element, errorIndics.color);
     }
 
 

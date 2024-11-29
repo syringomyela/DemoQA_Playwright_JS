@@ -22,6 +22,13 @@ class mainPage extends BasePage {
             cityMenu: this.getElementBySelector('#city svg'),
         }
     }
+
+    async errorIndicators() {
+        return {
+            element : 'border-color', 
+            color : `rgb(220, 53, 69)`,
+        }
+    }
     
     async fillForm(name1, name2, email, gender, phone, hobby, picture, address, state, city) {
         //names

@@ -89,7 +89,7 @@ class interaction extends utilities {
             number : this.getRandomNumber(10),
             hobby : this.getRandomHobby(),
             address : this.getRandomInputData(length),
-            picture : 'tests/demoQA/pages/sendingFormPage/superJumbo.jpg',
+            picture : 'pages/sendingFormPage/superJumbo.jpg',
             state : state,
             city : city,
     }
