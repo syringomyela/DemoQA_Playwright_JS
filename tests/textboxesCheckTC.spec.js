@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-import { mainPage } from '../demoQA/pages/textFormPage/pageObject.js'
-import { generateTextBoxData } from '../demoQA/pages/textFormPage/inputs.js';
+import { mainPage } from '../pages/textFormPage/pageObject.js'
+import { generateTextBoxData } from '../pages/textFormPage/inputs.js';
 
 test.beforeEach(async({page}, testInfo) =>{
     const actualPage = new mainPage(page);

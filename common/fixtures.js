@@ -1,6 +1,6 @@
 import { test as baseTest, expect} from   '@playwright/test';
-import { mainPage } from '../demoQA/pages/sendingFormPage/pageObject';
-import { interaction } from '../demoQA/pages/sendingFormPage/inputs';
+import { mainPage } from '../pages/sendingFormPage/pageObject.js';
+import { interaction } from '../pages/sendingFormPage/inputs.js';
 
     export const test = baseTest.extend({
         mainPage: async ({page}, use) =>{
@@ -19,4 +19,4 @@ import { interaction } from '../demoQA/pages/sendingFormPage/inputs';
             await use(generatedInputData);
         }
     });
-    export { expect};
+    export { expect };

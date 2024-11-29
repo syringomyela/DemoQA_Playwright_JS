@@ -1,5 +1,5 @@
 import { Page } from 'playwright';
-import { BasePage } from '../../../common/basePage';
+import { BasePage } from '../../common/basePage.js';
 import { interaction } from './inputs';
 
 

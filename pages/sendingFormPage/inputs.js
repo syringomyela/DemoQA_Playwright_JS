@@ -1,6 +1,6 @@
 
 import { Page } from 'playwright';
-import { utilities } from '../../../common/utils.js';
+import { utilities } from '../../common/utils.js';
 
 
 class interaction extends utilities {
