@@ -4,6 +4,7 @@ class mainPage {
     constructor(page) {
         this.page = page;
     }
+
     async goto() {
 
         await this.page.goto('/text-box');
@@ -12,6 +13,15 @@ class mainPage {
     getElementBySelector(selector) {
 
         return this.page.locator(selector);
+    }
+
+    outputResult() {
+        return {
+            name : this.getElementBySelector('#output #name'),
+            email : this.getElementBySelector('#output #email'),
+            currentAddress : this.getElementBySelector('#output #currentAddress'),
+            permanentAddress : this.getElementBySelector('#output #permanentAddress'),
+        }
     }
 
     async fillTextBoxes(name, email, address1, address2) {
@@ -23,9 +33,8 @@ class mainPage {
 
     }
 
-    async pressButton(selector) {
-        
-        await this.getElementBySelector(selector).click();
+    async pressSubmitButton() {
+        await this.getElementBySelector('#submit').click();
     }
 
 }
