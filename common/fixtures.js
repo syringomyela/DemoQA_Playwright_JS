@@ -1,12 +1,24 @@
-import { test as baseTest, expect} from   '@playwright/test';
+import { test as nativeTest, expect} from   '@playwright/test';
 import { mainPage } from '../pages/sendingFormPage/pageObject.js';
 import { interaction } from '../pages/sendingFormPage/inputs.js';
+import { registerPage } from '../pages/bookstorePages/registerPage.js';
+import { bookstoreEndpoints } from '../pages/bookstorePages/endpoints.js';
+import { userCredsBody } from '../pages/bookstorePages/requests.js';
 
-    export const test = baseTest.extend({
-        mainPage: async ({page}, use) =>{
+    
+            export const test = nativeTest.extend({
+        fillFormPage: async ({page}, use) =>{
             const actualPage = new mainPage(page);
             await actualPage.goto('/automation-practice-form');
             await use(actualPage);
+        },
+
+        registerAPI : async({page, request }, use) =>{
+            const actualPage  = new registerPage(page);
+            const endpoints = bookstoreEndpoints;
+            const data = userCredsBody();
+            const regResponse = await request.post(bookstoreEndpoints.account.user, {data});
+            await use({actualPage, data, endpoints, regResponse});
         },
 
         interaction: async ({page}, use ) => {
