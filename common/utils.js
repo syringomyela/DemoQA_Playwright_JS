@@ -6,7 +6,7 @@ class utilities {
     }
 
     getRandomInputData(length) {
-        return Math.random().toString(36).substring(2, length);
+        return  Math.random().toString(36).substring(2, length);
     }
     
     getRandomEmail(length) {

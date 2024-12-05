@@ -5,8 +5,8 @@ class BasePage{
         this.page = page; 
     }
 
-    async goto() {
-        await this.page.goto('/automation-practice-form');
+    async goto(url) {
+        await this.page.goto(url);
     }
 
   getElementBySelector(selector) {
