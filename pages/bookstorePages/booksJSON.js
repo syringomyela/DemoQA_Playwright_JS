@@ -89,3 +89,24 @@ export const books = [
             "website": "https://leanpub.com/understandinges6/read"
         }
     ]
+
+ function formExpectedBooksTitles(){
+    const expectedBooksTitles = [];
+    for (let book of books) {
+        //let bookISBN = book.isbn;
+        //let bookTitle = book.title;
+        
+        expectedBooksTitles.push(book.title);
+    }
+    return expectedBooksTitles;
+}
+
+ function makeISBNArrayForRequest(){
+    let booksISBN = [];
+    for (let book of books) {
+        booksISBN.push({ "isbn": book.isbn });
+    }
+    return booksISBN;
+}
+
+export {formExpectedBooksTitles, makeISBNArrayForRequest}

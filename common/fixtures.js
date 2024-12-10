@@ -3,7 +3,7 @@ import { FormPage } from '../pages/sendingFormPage/pageObject.js';
 import { Interaction } from '../pages/sendingFormPage/inputs.js';
 import { RegisterPage } from '../pages/bookstorePages/registerPage.js';
 import { bookstoreEndpoints } from '../pages/bookstorePages/endpoints.js';
-import { userCredsBody } from '../pages/bookstorePages/requests.js';
+import { userAuthentCredsBody } from '../pages/bookstorePages/requests.js';
 
     
             export const test = nativeTest.extend({
@@ -17,7 +17,7 @@ import { userCredsBody } from '../pages/bookstorePages/requests.js';
         registerAPI : async({page, request }, use) =>{
             const actualPage  = new RegisterPage(page);
             const endpoints = bookstoreEndpoints;
-            const data = userCredsBody();
+            const data = userAuthentCredsBody();
             const regResponse = await request.post(bookstoreEndpoints.account.user, {data});
             await use({actualPage, data, endpoints, regResponse});
         },
