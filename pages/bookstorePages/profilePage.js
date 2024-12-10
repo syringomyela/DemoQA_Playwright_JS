@@ -11,13 +11,13 @@ class ProfilePage extends BasePage {
             dropdownMenu: '[aria-label="rows per page"]',
         }
     }
-    async booksTitlesInProfile(){
+    async getBooksTitlesInProfile(){
         await this.page.waitForSelector(this.profilePageElements().tableTitleRow);
         await this.getElementBySelector(this.profilePageElements().dropdownMenu).selectOption("10 rows");
-        const addedBooksTitles = await this.page.$$eval('span.mr-2 a', rows =>
+        const titlesRows = this.profilePageElements().tableTitleRow;
+        const addedBooksTitles = await this.page.$$eval(titlesRows, rows =>
             rows.map(row => row.textContent)
           );
-        console.log(addedBooksTitles);
           return addedBooksTitles;
     }
 }

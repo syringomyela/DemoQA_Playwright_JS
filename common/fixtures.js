@@ -1,20 +1,21 @@
 import { test as nativeTest, expect} from   '@playwright/test';
-import { mainPage } from '../pages/sendingFormPage/pageObject.js';
-import { interaction } from '../pages/sendingFormPage/inputs.js';
-import { registerPage } from '../pages/bookstorePages/registerPage.js';
+import { FormPage } from '../pages/sendingFormPage/pageObject.js';
+import { Interaction } from '../pages/sendingFormPage/inputs.js';
+import { RegisterPage } from '../pages/bookstorePages/registerPage.js';
 import { bookstoreEndpoints } from '../pages/bookstorePages/endpoints.js';
 import { userCredsBody } from '../pages/bookstorePages/requests.js';
 
     
             export const test = nativeTest.extend({
+                
         fillFormPage: async ({page}, use) =>{
-            const actualPage = new mainPage(page);
+            const actualPage = new FormPage(page);
             await actualPage.goto('/automation-practice-form');
             await use(actualPage);
         },
 
         registerAPI : async({page, request }, use) =>{
-            const actualPage  = new registerPage(page);
+            const actualPage  = new RegisterPage(page);
             const endpoints = bookstoreEndpoints;
             const data = userCredsBody();
             const regResponse = await request.post(bookstoreEndpoints.account.user, {data});
@@ -22,7 +23,7 @@ import { userCredsBody } from '../pages/bookstorePages/requests.js';
         },
 
         interaction: async ({page}, use ) => {
-            const getMethods = new interaction(page);
+            const getMethods = new Interaction(page);
             await use(getMethods);
         },
 
