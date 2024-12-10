@@ -1,5 +1,5 @@
 import { test, expect } from "../common/fixtures";
-import { books } from "../pages/bookstorePages/booksJSON";
+import { makeISBNArrayForRequest, formExpectedBooksTitles} from "../pages/bookstorePages/booksJSON.js";
 import { ProfilePage } from "../pages/bookstorePages/profilePage";
 import { LoginPage } from "../pages/bookstorePages/loginPage";
 
@@ -10,8 +10,6 @@ test('Registration, login and bookstore interaction through API, UI verification
     const profilePage = new ProfilePage(page);
     const loginPage = new LoginPage(page);
 
-    let booksISBN = [];
-    const expectedBooksTitles = [];
 
     await request.post(endpoints.account.generateToken, {data});
     const logResponse = await request.post(endpoints.account.login, {data});
@@ -21,13 +19,8 @@ test('Registration, login and bookstore interaction through API, UI verification
     expect(logResponse.status()).toBe(200);
     expect(loginResponseBody.token).toBeDefined();
 
-    for (let book of books) {
-        let bookISBN = book.isbn;
-        let bookTitle = book.title;
-        booksISBN.push({ "isbn": bookISBN });
-        expectedBooksTitles.push(bookTitle);
-    }
-
+    const expectedBooksTitles = formExpectedBooksTitles();
+    const booksISBN = makeISBNArrayForRequest();
     const addBooksResponse  = await request.post(endpoints.bookstore.books, {
         headers: {
             "Authorization": `Bearer ${authToken}`,
