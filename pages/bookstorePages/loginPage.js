@@ -1,4 +1,5 @@
 import { BasePage } from "../../common/basePage";
+import { bookstoreEndpoints } from "./endpoints";
 
 class LoginPage extends BasePage {
     constructor(page) {
@@ -8,15 +9,21 @@ class LoginPage extends BasePage {
     async loginElements(){
         return{
             nameField:  this.getElementBySelector("#userName"),
-            passwordField:  this.getElementBySelector("#password"),
-            loginButton:  this.getElementBySelector("#login"),
+            passwordField:   this.getElementBySelector("#password"),
+            loginButton:   this.getElementBySelector("#login"),
         }
     }
-    async loginProccess(loginURL, username, password){
-        await this.goto(loginURL);
-        await (await this.loginElements()).nameField.fill(username);
-        await (await this.loginElements()).passwordField.fill(password);
-        await (await this.loginElements()).loginButton.click();
+
+    async gotoLoginPage(){
+        const loginEndpoint = bookstoreEndpoints.account.loginUI;
+        await this.goto(loginEndpoint);
+    }
+
+    async loginProccess( username, password){
+        const loginElements = await this.loginElements();
+        await loginElements.nameField.fill(username);
+        await loginElements.passwordField.fill(password);
+        await loginElements.loginButton.click();
     }    
 }
 

@@ -11,7 +11,7 @@ test('Registration, login and bookstore interaction through API, UI verification
     const loginPage = new LoginPage(page);
 
     let booksISBN = [];
-    const addedBooksTitles = [];
+    const expectedBooksTitles = [];
 
     await request.post(endpoints.account.generateToken, {data});
     const logResponse = await request.post(endpoints.account.login, {data});
@@ -25,7 +25,7 @@ test('Registration, login and bookstore interaction through API, UI verification
         let bookISBN = book.isbn;
         let bookTitle = book.title;
         booksISBN.push({ "isbn": bookISBN });
-        addedBooksTitles.push(bookTitle);
+        expectedBooksTitles.push(bookTitle);
     }
 
     const addBooksResponse  = await request.post(endpoints.bookstore.books, {
@@ -40,15 +40,11 @@ test('Registration, login and bookstore interaction through API, UI verification
 
     expect(addBooksResponse.status()).toBe(201);
 
-    const respBody = await addBooksResponse.json();
-
-    console.log(respBody);
-
-
-    await loginPage.loginProccess(endpoints.account.loginUI, registerAPI.data.userName, registerAPI.data.password);
-        const addedBooks =  await profilePage.booksTitlesInProfile();
+    await loginPage.gotoLoginPage();
+    await loginPage.loginProccess(registerAPI.data.userName, registerAPI.data.password);
+        const addedBooks =  await profilePage.getBooksTitlesInProfile();
         console.log(addedBooks);
-
-        expect(addedBooks).toEqual(addedBooksTitles);
+        console.log(expectedBooksTitles);
+        expect(addedBooks).toEqual(expectedBooksTitles);
 })
     

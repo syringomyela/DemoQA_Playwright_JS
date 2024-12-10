@@ -1,20 +1,20 @@
-import { utilities } from "../../common/utils";
+import { Utilities } from "../../common/utils";
 import { BasePage } from "../../common/basePage";
 
-class registerPage extends BasePage {
+class RegisterPage extends BasePage {
     constructor(page) {
         super(page);
-        this.methods = new utilities;
+        this.methods = new Utilities;
     }
 
-    generateInput(length = 10) {
-        //const password = `! + ${this.methods.getRandomInputData(length)}`
-        return {
-            userName : this.methods.getRandomInputData(length),
-            password : `!A${this.methods.getRandomInputData(length)}`,
-        }
-    }
+    // generateUserCreds(length = 10) {
+    //     //const password = `! + ${this.methods.getRandomInputData(length)}`
+    //     return {
+    //         userName : this.methods.getRandomInputData(length),
+    //         password : `!A${this.methods.getRandomInputData(length)}`,
+    //     }
+    // }
 
 }
 
-export {registerPage}
+export {RegisterPage}

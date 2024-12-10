@@ -1,6 +1,6 @@
 import { Page } from 'playwright';
 
-class utilities {
+class Utilities {
     constructor(page) {
         this.page = page; 
     }
@@ -27,6 +27,7 @@ class utilities {
     
     return date.toISOString().split('T')[0];
     }
+
 }
 
-export {utilities}
+export {Utilities}

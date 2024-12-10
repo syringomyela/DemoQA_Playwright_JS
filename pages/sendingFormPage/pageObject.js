@@ -3,7 +3,7 @@ import { BasePage } from '../../common/basePage.js';
 import { interaction } from './inputs';
 
 
-class mainPage extends BasePage {
+class FormPage extends BasePage {
     constructor(page) {
         super(page)
         this.method = new interaction;
@@ -119,4 +119,4 @@ class mainPage extends BasePage {
 
 }
 
-export { mainPage }
+export { FormPage }

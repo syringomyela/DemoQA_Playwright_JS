@@ -1,9 +1,9 @@
 
 import { Page } from 'playwright';
-import { utilities } from '../../common/utils.js';
+import { Utilities } from '../../common/utils.js';
 
 
-class interaction extends utilities {
+class Interaction extends Utilities {
     constructor(page) {
         super(page)
     }
@@ -96,4 +96,4 @@ class interaction extends utilities {
 }
 }
 
-export {interaction}
+export {Interaction}
