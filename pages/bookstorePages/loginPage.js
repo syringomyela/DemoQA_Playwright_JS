@@ -16,10 +16,10 @@ class LoginPage extends BasePage {
 
     async gotoLoginPage(){
         const loginEndpoint = bookstoreEndpoints.account.loginUI;
-        await this.goto(loginEndpoint);
+        await this.goto("https://demoqa.com/login");
     }
 
-    async loginProccess( username, password){
+    async loginProccess(username, password){
         const loginElements = await this.loginElements();
         await loginElements.nameField.fill(username);
         await loginElements.passwordField.fill(password);
