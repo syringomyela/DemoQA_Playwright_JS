@@ -1,18 +1,21 @@
+import { makeISBNArrayForRequest } from "./booksJSON";
+
 export function userAuthentCredsBody(){
     return {
         userName: "admin1",
-        password: "Password123!",
+        password: "Password123!"
     };
 }
 
-// export function  addBooksBody(authToken, userID, booksISBNArray) {
-// return  {
-//     headers: {
-//         "Authorization": `Bearer ${authToken}`,
-//     },
-//     data: {
-//         "userId": userID,
-//         "collectionOfIsbns": booksISBNArray,
-//     }
-// }
-// }
+export async function addBooksBody(authToken, userID) {
+    const booksISBNArray = await makeISBNArrayForRequest();
+return  {
+    headers: {
+        "Authorization": `Bearer ${authToken}`,
+    },
+    data: {
+        "userId": userID,
+        "collectionOfIsbns": booksISBNArray,
+    }
+}
+}

@@ -93,15 +93,12 @@ export const books = [
  function formExpectedBooksTitles(){
     const expectedBooksTitles = [];
     for (let book of books) {
-        //let bookISBN = book.isbn;
-        //let bookTitle = book.title;
-        
         expectedBooksTitles.push(book.title);
     }
     return expectedBooksTitles;
 }
 
- function makeISBNArrayForRequest(){
+ async function makeISBNArrayForRequest(){
     let booksISBN = [];
     for (let book of books) {
         booksISBN.push({ "isbn": book.isbn });
