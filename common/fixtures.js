@@ -1,7 +1,6 @@
 import { test as nativeTest, expect} from   '@playwright/test';
 import { FormPage } from '../pages/sendingFormPage/pageObject.js';
 import { Interaction } from '../pages/sendingFormPage/inputs.js';
-import { RegisterPage } from '../pages/bookstorePages/registerPage.js';
 import { userAuthentCredsBody } from '../pages/bookstorePages/requests.js';
 import { baseAPIInteraction } from '../pages/bookstorePages/methodsAPI.js';
 
@@ -15,11 +14,10 @@ import { baseAPIInteraction } from '../pages/bookstorePages/methodsAPI.js';
         },
 
         registerAPI : async({page, request : apiRequest }, use) =>{
-            const registerPage  = new RegisterPage(page);
-            const request = new baseAPIInteraction(page, apiRequest);
+            const APImethods = new baseAPIInteraction(page, apiRequest);
             const data =  userAuthentCredsBody();
-            await request.registerUserRequest();
-            await use({registerPage, data, request});
+            await APImethods.registerUserRequest();
+            await use({ data, APImethods});
         },
 
         interaction: async ({page}, use ) => {
