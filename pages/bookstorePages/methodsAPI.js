@@ -8,7 +8,7 @@ class baseAPIInteraction {
         this.page = page;
         this.request = request;
         this.endpoint = bookstoreEndpoints;
-        this.userCredentials = userAuthentCredsBody();
+        this.userCredentials = userAuthentCredsBody;
 
     }
 
