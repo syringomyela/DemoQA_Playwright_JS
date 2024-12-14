@@ -15,7 +15,7 @@ import { baseAPIInteraction } from '../pages/bookstorePages/methodsAPI.js';
 
         registerAPI : async({page, request : apiRequest }, use) =>{
             const APImethods = new baseAPIInteraction(page, apiRequest);
-            const data =  userAuthentCredsBody();
+            const data =  userAuthentCredsBody;
             await APImethods.registerUserRequest();
             await use({ data, APImethods});
         },
