@@ -1,6 +1,4 @@
-export function userAuthentCredsBody(){
-    return {
-        userName: "admin1",
-        password: "Password123!"
-    };
-}
+export const userAuthentCredsBody = {
+  userName: 'admin1',
+  password: 'Password123!',
+};
