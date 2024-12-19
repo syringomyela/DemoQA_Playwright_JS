@@ -12,6 +12,7 @@
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/node": "^22.8.1",
+
     "allure-playwright": "^3.0.7",
     "prettier": "3.4.2"
   },

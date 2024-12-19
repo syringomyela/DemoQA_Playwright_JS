@@ -1,4 +1,4 @@
 export const userAuthentCredsBody = {
-  userName: 'admin1',
-  password: 'Password123!',
-};
+        userName: "admin1",
+        password: "Password123!"
+    };
