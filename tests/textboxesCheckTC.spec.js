@@ -4,7 +4,7 @@ import { generateTextBoxData } from '../pages/textFormPage/inputs.js';
 
 test.beforeEach(async ({ page }, testInfo) => {
   const actualPage = new mainPage(page);
-  await actualPage.goto();
+  await actualPage.goto(process.env.BASE_URL);
   const generatedInputData = generateTextBoxData(10);
 
   testInfo.data = { actualPage, generatedInputData };

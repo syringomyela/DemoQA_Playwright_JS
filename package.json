@@ -10,13 +10,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.49.1",
     "@types/node": "^22.8.1",
-
     "allure-playwright": "^3.0.7",
     "prettier": "3.4.2"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "pretty": "^2.0.0"
   }
 }
