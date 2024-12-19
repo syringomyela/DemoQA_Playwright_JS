@@ -1,0 +1,26 @@
+name: Run Playwright Tests Manually
+
+on:
+  workflow_dispatch:  # This allows you to trigger the workflow manually via the GitHub UI
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # You can change this to 'windows-latest' or 'macos-latest' depending on your needs
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 'latest'  # Set the Node.js version you need
+
+    - name: Install dependencies
+      run: npm install  # or `yarn install` if you're using Yarn
+
+    - name: Install Playwright
+      run: npm install -g playwright@latest  # This installs the required browsers for Playwright
+
+    - name: Run Playwright tests
+      run: npx playwright test tests/bookstoreAPITest.spec.js # This will run your Playwright tests
