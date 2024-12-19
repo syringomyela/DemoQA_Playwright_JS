@@ -8,11 +8,13 @@ class baseAPIInteraction {
     this.page = page;
     this.request = request;
     this.endpoint = bookstoreEndpoints;
+    this.baseURL = process.env.BASE_URL || 'https://demoqa.com';
     this.userCredentials = userAuthentCredsBody;
   }
 
   async registerUserRequest() {
     const data = this.userCredentials;
+    console.log(`${this.baseURL}${this.endpoint.account.user}`);
     const registerResponse = await this.request.post(this.endpoint.account.user, data);
     return registerResponse;
   }
