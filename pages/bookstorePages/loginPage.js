@@ -16,7 +16,7 @@ class LoginPage extends BasePage {
 
   async gotoLoginPage() {
     const loginEndpoint = bookstoreEndpoints.account.loginUI;
-    await this.goto(loginEndpoint);
+    await this.goto(`${process.env.BASE_URL}${loginEndpoint}`);
   }
 
   async loginProccess(username, password) {
