@@ -3,13 +3,15 @@ import { FormPage } from '../pages/sendingFormPage/pageObject.js';
 import { Interaction } from '../pages/sendingFormPage/inputs.js';
 import { userAuthentCredsBody } from '../pages/bookstorePages/requests.js';
 import { baseAPIInteraction } from '../pages/bookstorePages/methodsAPI.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
    
     export const test = nativeTest.extend({
                 
         fillFormPage: async ({page}, use) =>{
             const actualPage = new FormPage(page);
-            await actualPage.goto('/automation-practice-form');
+            await actualPage.goto(`${process.env.BASE_URL}/automation-practice-form`);
             await use(actualPage);
         },
 
