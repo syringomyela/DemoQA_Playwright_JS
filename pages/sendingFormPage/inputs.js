@@ -5,15 +5,16 @@ class Interaction extends Utilities {
   constructor(page) {
     super(page);
   }
-
+    
   state() {
-    return {
-      'Uttar Pradesh': ['Agra', 'Luckhow', 'Merrut'],
-      Haryana: ['Karnal', 'Panipat'],
-      NCR: ['Delhi', 'Gurgaon', 'Noida'],
-      Rajasthan: ['Jaipur', 'Jaiselmer'],
-    };
-  }
+        return {
+            'Uttar Pradesh' : ['Agra', 'Luckhow', 'Merrut'], 
+            Haryana : ['Karnal', 'Panipat'], 
+            NCR : ['Delhi', 'Gurgaon', 'Noida'], 
+            Rajasthan : ['Jaipur', 'Jaiselmer'],
+        }
+    }
+
 
   gender() {
     return ['Male', 'Female', 'Other'];

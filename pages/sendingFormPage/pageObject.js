@@ -1,11 +1,11 @@
 import { Page } from 'playwright';
 import { BasePage } from '../../common/basePage.js';
-import { interaction } from './inputs';
+import { Interaction } from './inputs';
 
 class FormPage extends BasePage {
   constructor(page) {
     super(page);
-    this.method = new interaction();
+    this.method = new Interaction;
   }
 
   elementOnPage() {

@@ -5,9 +5,10 @@ class BasePage {
     this.page = page;
   }
 
-  async goto(url) {
-    await this.page.goto(url);
-  }
+
+    async goto(url) {
+        await this.page.goto(url);
+    }
 
   getElementBySelector(selector) {
     return this.page.locator(selector);
