@@ -15,7 +15,7 @@ RUN npm install -g playwright@latest \
     && playwright install --with-deps
 
 # Copy test files and related resources into the container
-# COPY
+# COPY 
 
 # Set permissions for Jenkins user
 RUN chown -R jenkins:jenkins ./tests
