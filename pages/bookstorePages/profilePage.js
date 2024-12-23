@@ -11,6 +11,8 @@ class ProfilePage extends BasePage {
       dropdownMenu: this.getElementBySelector('[aria-label="rows per page"]'),
     };
   }
+  //check if Git webhooks will trigger jenkins jobs
+  
   async getBooksTitlesInProfile() {
     await this.profilePageElements().dropdownMenu.selectOption('10 rows');
     const titlesRows = await this.profilePageElements().tableTitleRow;
