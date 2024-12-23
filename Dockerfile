@@ -7,7 +7,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs apt-transport-https \
     && npm install -g npm@latest
 
-# Install Playwright
 RUN npm install -g playwright@latest \
     && playwright install --with-deps
 
