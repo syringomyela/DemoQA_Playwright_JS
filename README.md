@@ -4,4 +4,4 @@ Use Node.js
 Use Docker
 Use Jenkins
 Use Javascript
-Night City ducks 
+Night City cool 
