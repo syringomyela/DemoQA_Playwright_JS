@@ -17,7 +17,6 @@ class baseAPIInteraction {
 
   async registerUserRequest() {
     const data = this.userCredentials;
-    console.log(`${this.baseURL}${this.endpoint.account.user}`);
     const registerResponse = await this.request.post(`${this.baseURL}${this.endpoint.account.user}`, data);
     return registerResponse;
   }
