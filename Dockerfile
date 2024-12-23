@@ -1,7 +1,5 @@
 # Use official Jenkins image as the base
 FROM jenkins/jenkins:lts
-
-# Switch to root user to install dependencies
 USER root
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -12,7 +10,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 RUN npm install -g playwright@latest \
     && playwright install --with-deps
 
-# Set permissions for Jenkins user
+
 RUN chown -R jenkins:jenkins ./tests
 
 # Switch back to Jenkins user
